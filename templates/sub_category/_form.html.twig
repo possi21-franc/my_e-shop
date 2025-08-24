@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+<div class="mb-3">
+    <label for="" class="mb-2">Nom de la sous-catégorie</label>
+    {{ form_widget(form.name, {attr:{'class': 'form-control'}}) }}
+
+</div>
+<div class="mb-3">
+    <label for="" class="mb-2">Catégorie Associée</label>
+    {{ form_widget(form.category, {attr:{'class': 'form-control'}}) }}
+
+</div>
+    <button class="btn mb-3 btn-outline-primary">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

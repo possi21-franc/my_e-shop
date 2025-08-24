@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CategoryController!{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="text-center mb-3 font-weight-normal">Catégories</h1>
+
+    {% include 'layout/flash_message.html.twig'%}
+
+    <div class="mb-3 text-end">
+        <a href="{{path('app_category_new')}}" class="btn btn-primary">Ajouter une catégorie</a>
+    </div>
+<table class="table">
+    <tr>
+        <th>id</th>
+        <th>nom de la catégorie</th>
+        <th>action</th>
+    </tr>
+    {% for category in categories %}
+    <tr>
+        <td>{{ category.id}}</td>
+        <td>{{ category.name}}</td>
+        <td class="gap-2">
+            <a href="{{path('app_category_edit', {'id':category.id})}}" class="btn btn-success">Modifier</a>
+            <a onclick="return confirm('voulez-vous vraiment supprimer cette catégorie ? ')" href="{{path('app_category_delete', {'id':category.id})}}" class="btn btn-danger">supprimer</a>
+        </td>
+    </tr>
+     {% else %}
+     <tr>
+        <td colspan="3" >Aucune catégorie trouvé</td>
+     </tr>
+    {% endfor%}
+</table>
+</div>
+
+{% endblock %}
