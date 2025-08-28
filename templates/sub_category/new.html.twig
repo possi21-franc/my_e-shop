@@ -1,14 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New SubCategory{% endblock %}
+{% block title %}Nouvelle Sous-catégorie{% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1 class="mb-3">Create new SubCategory</h1>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class=" col-md-8">
 
-    {{ include('sub_category/_form.html.twig') }}
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">
+                        <i class="bi bi-plus-circle me-2"></i>Nouvelle Sous-catégorie
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {{ include('sub_category/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 
-    <a class="btn btn-primary" href="{{ path('app_sub_category_index') }}">back to list</a>
+                    <div class="mt-3">
+                        <a href="{{ path('app_sub_category_index') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left-circle me-1"></i> Retour à la liste
+                        </a>
+                    </div>
+                </div>
+            </div>
 
+        </div>
+    </div>
 </div>
 {% endblock %}
