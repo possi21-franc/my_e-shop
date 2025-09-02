@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+
+    <div class="card mb-4 shadow-sm border-0 rounded-3 " >
+  <div class="row g-0">
+    <!-- Image produit -->
+    <div class="col-md-3 d-flex align-items-center">
+      <img src="{{ asset('uploads/images/' ~ product.image) }}" 
+           class="img-fluid rounded-start" 
+           alt="{{ product.name }}">
+    </div>
+
+    <!-- Infos produit -->
+    <div class="col-md-9">
+      <div class="card-body d-flex flex-column h-100">
+        <h5 class="card-title fw-bold">{{ product.name }}</h5>
+        <p class="card-text text-muted">{{ product.desciption }}</p>
+        <h5 class="card-title fw-bold">Prix : {{ product.price }}€</h5>
+        <!-- Bouton Ajouter au panier -->
+        <div class="mt-auto">
+          <a href="{{path('app_cart_new', {'id':product.id})}}" class="btn btn-primary d-inline-flex align-items-center px-3 py-2">
+            <i class="bi bi-cart me-2"></i> Ajouter au panier
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<h2 class="text-center mb-4">Derniers Produits Ajoutés </h2>
+
+<div class="row">
+        {% for product in products %}
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 shadow-sm product-card position-relative">
+                    
+                    <!-- Prix en haut à droite -->
+                    <span class="badge bg-success position-absolute top-0 end-0 m-2 p-2">
+                      Prix :   {{ product.price }} €
+                    </span>
+
+                    <!-- Image avec effet hover -->
+                    <div class="image-container">
+                        <img src="{{ asset('uploads/images/' ~ product.image) }}" 
+                             class="card-img-top img-fluid" 
+                             alt="{{ product.name }}">
+                    </div>
+
+                    <div class="card-body d-flex flex-column">
+                        <!-- Titre stylisé -->
+                        <a href="{{ path('app_home_product_show', {'id': product.id}) }}" 
+                           class="text-decoration-none text-dark fw-bold product-title">
+                            <h5 class="card-title mb-2">{{ product.name }}</h5>
+                        </a>
+
+                        <p class="card-text text-muted">
+                            {{ product.desciption|slice(0, 50) }}...
+                        </p>
+                        <!-- Bouton avec icône panier Bootstrap -->
+                        <a href="{{path('app_cart_new', {'id':product.id})}}" class="btn btn-primary mt-auto">
+                            <i class="bi bi-cart me-2"></i> Ajouter au panier
+                        </a>
+                    </div>
+                </div>   
+            </div>
+        {% endfor %}
+    </div>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="container security-login">
+
+    <div class="login-form">
+<h1 class="h3 mb-3 font-weight-normal text-center">Inscription</h1>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+
+<div class="mb-3">
+    {{ form_label(registrationForm.firstName, null, {'label_attr': {'class':'form-label mb-1'}}) }}
+    {{ form_widget(registrationForm.firstName, {'attr': {'class':'form-control', 'placeholder':'Votre Nom'}}) }}
+    {{ form_errors(registrationForm.firstName) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(registrationForm.lastName, null, {'label_attr': {'class':'form-label mb-1'}}) }}
+    {{ form_widget(registrationForm.lastName, {'attr': {'class':'form-control', 'placeholder':'Votre Prénom'}}) }}
+    {{ form_errors(registrationForm.lastName) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(registrationForm.email, null, {'label_attr': {'class':'form-label mb-1'}}) }}
+    {{ form_widget(registrationForm.email, {'attr': {'class':'form-control', 'placeholder':'Adresse E-mail'}}) }}
+    {{ form_errors(registrationForm.email) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(registrationForm.plainPassword, null, {'label_attr': {'class':'form-label mb-1'}}) }}
+    {{ form_widget(registrationForm.plainPassword, {'attr': {'class':'form-control', 'placeholder':'**********'}}) }}
+    {{ form_errors(registrationForm.plainPassword) }}
+</div>
+
+<div class="form-check mb-3">
+    {{ form_widget(registrationForm.agreeTerms, {'attr': {'class':'form-check-input me-2'}}) }}
+    {{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class':'form-check-label'}}) }}
+    {{ form_errors(registrationForm.agreeTerms) }}
+</div>
+<div class="mb-3">
+<button type="submit" class="btn btn-lg btn-primary btn-block">Register</button>
+</div>
+
+    {{ form_end(registrationForm) }}
+
+          <div class="text-center">
+            <p>Vous avez déjà un compte ?  <a href="{{path('app_login')}}" class="check">Se connecter</a></p>
+        </div>
+
+        </div>
+        
+
+
+
+</div>
+    
+{% endblock %}

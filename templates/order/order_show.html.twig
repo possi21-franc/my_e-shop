@@ -1,0 +1,149 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %} Liste des Commandes {% endblock %}
+
+{% block body %}
+<div class="container my-5" style="min-height: 80vh;">
+        {% include 'layout/flash_message.html.twig'%}
+
+    <h1 class="mb-4 text-center text-primary fw-bold">📦 Liste des Commandes</h1>
+
+    {% for order in orders %}
+    <div class="card shadow-lg mb-5 rounded-4">
+        <div class="card-header bg-gradient text-white d-flex justify-content-between align-items-center rounded-top-4" style="background: linear-gradient(90deg, #0d6efd, #6610f2) !important;">
+            <h5 class="mb-0">Commande N° <strong>{{ order.id }}</strong></h5>
+            {% if order.isCompleted == true %}
+            <span class="badge bg-light text-success px-3 py-2">
+                commande livrée
+            </span>
+            {%else%}
+            <span class="badge bg-light text-danger px-3 py-2">
+                commande  non livrée
+            </span>
+            {%endif%}
+            
+        </div>
+        <div class="card-body">
+
+            <!-- Onglets -->
+            <ul class="nav nav-tabs" id="orderTabs-{{ order.id }}" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="client-tab-{{ order.id }}" data-bs-toggle="tab" data-bs-target="#client-{{ order.id }}" type="button" role="tab">
+                        👤 Infos Client
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="products-tab-{{ order.id }}" data-bs-toggle="tab" data-bs-target="#products-{{ order.id }}" type="button" role="tab">
+                        🛒 Produits
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="summary-tab-{{ order.id }}" data-bs-toggle="tab" data-bs-target="#summary-{{ order.id }}" type="button" role="tab">
+                        💳 Paiement
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Contenu des onglets -->
+            <div class="tab-content p-3 border border-top-0 rounded-bottom-4" id="orderTabsContent-{{ order.id }}">
+
+                <!-- Infos client -->
+                <div class="tab-pane fade show active" id="client-{{ order.id }}" role="tabpanel">
+                    <table class="table table-striped align-middle table-responsive">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Téléphone</th>
+                                <th>Adresse</th>
+                                <th>Ville</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ order.firstName }}</td>
+                                <td>{{ order.lastName }}</td>
+                                <td>{{ order.phone }}</td>
+                                <td>{{ order.adresse }}</td>
+                                <td>{{ order.city.name }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Produits -->
+                <div class="tab-pane fade" id="products-{{ order.id }}" role="tabpanel">
+                    <table class="table table-hover align-middle table-responsive">
+                        <thead class="table-info">
+                            <tr>
+                                <th>Image</th>
+                                <th>Nom du produit</th>
+                                <th>Prix unitaire</th>
+                                <th>Quantité</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in order.orderProducts %}
+                            <tr>
+                                <td>
+                                    <img src="{{ asset('uploads/images/' ~ product.product.image) }}" 
+                                         alt="{{ product.product.name }}" 
+                                         class="img-thumbnail" 
+                                         style="width: 60px; height: 60px; object-fit: cover;">
+                                </td>
+                                <td>{{ product.product.name }}</td>
+                                <td>{{ product.product.price }} FCFA</td>
+                                <td>{{ product.qte }}</td>
+                                <td class="fw-bold">{{ product.product.price * product.qte }} FCFA</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paiement -->
+                <div class="tab-pane fade" id="summary-{{ order.id }}" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
+                        <h6 class="mb-0">🚚 Frais de livraison : <strong>{{ order.city.shippingCost }} FCFA</strong></h6>
+                        <h5 class="mb-0 text-success fw-bold">💰 Total à payer : {{ order.totalPrice }} FCFA</h5>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Actions -->
+
+            <div class="d-flex justify-content-end gap-2 mt-3">
+                <!-- Bouton Marquer comme livré -->
+                 {% if order.isCompleted != true %}
+                <form method="post" action="{{path('app_order_is_completed_update', {'id':order.id})}}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('deliver' ~ order.id) }}">
+                    <button class="btn btn-success btn-md">
+                         Marquer comme livré
+                    </button>
+                </form>
+                {%endif%}
+
+                <!-- Bouton imprimer -->
+                <a href="{{path('app_bill', {'id':order.id})}}" class="btn btn-primary btn-md">
+                         imprimer
+            </a>
+
+                <!-- Bouton Supprimer -->
+                <form method="post" action="{{path('app_order_remove', {'id':order.id})}}" onsubmit="return confirm('Voulez-vous vraiment supprimer cette commande ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ order.id) }}">
+                    <button class="btn btn-danger btn-md">
+                         Supprimer
+                    </button>
+                </form>
+                
+            </div>
+            
+        </div>
+    </div>
+    {% endfor %}
+
+    {{ knp_pagination_render(orders, 'layout/pagination.html.twig') }}
+</div>
+{% endblock %}

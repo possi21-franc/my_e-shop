@@ -1,0 +1,69 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Product index{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    {% include 'layout/flash_message.html.twig'%}
+
+    <h1 class="mb-4 text-center">Produits</h1>
+
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{ path('app_product_new') }}" class="btn btn-outline-primary">
+            Nouveau produit
+        </a>
+    </div>
+
+    <!-- Rendre le tableau responsive -->
+    <div class="table-responsive rounded-3 ">
+        <table class="table table-striped table-hover align-middle p-2 table-bordered border-light">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Stock</th>
+                    <th>Prix</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.desciption|slice(0,50) }}...</td>
+                    <td>
+                        {% if product.stock > 0 %}
+                            <span class="badge bg-success">{{ product.stock }}</span>
+                        {% else %}
+                            <span class="badge bg-danger">Stock épuisé</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ product.price }}€</td>
+                    <td>
+                        <div class="d-flex flex-wrap gap-2 justify-content-between">
+                            <a href="{{ path('app_product_stock_add', {'id': product.id}) }}" class="btn btn-sm btn-outline-info">
+                                Ajouter stock
+                            </a>
+                            <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-sm btn-outline-success">
+                                Voir
+                            </a>
+                            <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-sm btn-primary">
+                                Modifier
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">Aucun produit trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,128 @@
+
+
+{% block body %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .invoice-container {
+        max-width: 900px;
+        background: #ffffff;
+    }
+    .invoice-header {
+        display: flex;
+        justify-content: space-between !important;
+        align-items: center;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 15px;
+        margin-bottom: 25px;
+    }
+    .invoice-header h1 {
+        font-size: 24px;
+        color: #333;
+        margin: 0;
+    }
+    .invoice-details {
+        margin-bottom: 20px;
+    }
+    .invoice-details h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+        color: #444;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 25px;
+    }
+    table th {
+        background: #f1f3f6;
+        text-align: left;
+        padding: 12px;
+        font-size: 14px;
+        color: #333;
+    }
+    table td {
+        border-bottom: 1px solid #e9ecef;
+        padding: 12px;
+        font-size: 14px;
+        color: #555;
+    }
+    .product-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+    .totals {
+        text-align: right;
+        margin-top: 20px;
+    }
+    .totals h4 {
+        margin: 5px 0;
+        font-size: 16px;
+        color: #333;
+    }
+    .footer {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 13px;
+        color: #888;
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+    }
+</style>
+
+<div class="invoice-container">
+    <div class="invoice-header">
+        <h1 style="margin-bottom: 10px;">Facture N° {{ order.id }}</h1>
+        <div>
+            <strong> Date :</strong> {{ "now"|date("d/m/Y") }}<br> <br>
+            <strong>Client :</strong> {{ order.firstName }} {{ order.lastName }}
+        </div>
+    </div>
+
+    <div class="invoice-details">
+        <h3>Informations du client</h3>
+        <p><strong>Téléphone :</strong> {{ order.phone }}</p>
+        <p><strong>Adresse :</strong> {{ order.adresse }}</p>
+        <p><strong>Ville :</strong> {{ order.city.name }}</p>
+    </div>
+
+    <h3>Détails de la commande</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Prix unitaire</th>
+                <th>Quantité</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in order.orderProducts %}
+            <tr>
+                <td>{{ product.product.name }}</td>
+                <td>{{ product.product.price }} €</td>
+                <td>{{ product.qte }}</td>
+                <td>{{ product.product.price * product.qte }} €</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="totals">
+        <h4>Frais de livraison : {{ order.city.shippingCost }} €</h4>
+        <h4><strong>Total à payer : {{ order.totalPrice }} €</strong></h4>
+    </div>
+
+    <div class="footer">
+        Merci pour votre achat ! <br> 
+        <em>Cette facture est générée automatiquement.</em>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,96 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top"  data-bs-theme="dark">
+  <div class="container">
+    <a class="navbar-brand" href="{{path('app_home')}}">MY E-SHOP</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{path('app_home')}}">Home</a>
+        </li>
+        
+
+        {% if categories is defined%}
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Catégories
+          </a>
+         <ul class="dropdown-menu shadow-lg rounded-3 p-2">
+          {% for category in categories %}
+          <li>
+        <a class="dropdown-item d-flex align-items-center gap-2" href="">
+            <i class="bi bi-list-ul fs-5 text-primary"></i>
+            <span>{{category.name}}</span>
+        </a>
+        {%for subCategory in category.subCategories%}
+    <li>
+        <a class="dropdown-item d-flex align-items-center gap-2" href="{{ path('app_home_product_filter', {'id':subCategory.id}) }}">
+            <i class="bi bi-tags-fill fs-5 text-success"></i>
+            <span>{{subCategory.name}}</span>
+        </a>
+    </li>
+        {%endfor%}
+    </li>
+        <li><hr class="dropdown-divider"></li>
+    
+          {% endfor%}
+    
+</ul>
+
+ </li>
+
+ {%endif%}
+
+        
+      </ul>
+{# avant d’afficher le badge #}
+{% set cart_count = cart_count|default(0) %}
+
+        {% if is_granted("ROLE_ADMIN") %}
+
+    {% else %}
+    <div class="cart position-relative mx-2">
+    <a href="{{ path('app_cart') }}" class="cart-link">
+        <i class="bi bi-cart"></i>
+        {% if cart_count > 0 %}
+            <span class="cart-badge">{{ cart_count }}</span>
+        {% endif %}
+    </a>
+</div>
+    {% endif %}
+
+
+        {% if is_granted("ROLE_ADMIN") %}
+    <a href="{{ path('admin_dashboard') }}" class="d-flex align-items-center gap-2 text-white text-decoration-none p-2 rounded hover-bg">
+        <i class="bi bi-speedometer2 fs-5"></i>
+        <span>Dashboard</span>
+    </a>
+    {% endif %}
+
+
+
+
+
+
+         {% if app.user == false%}
+      <div class="gap-3 d-flex">
+        <a href="{{path('app_login')}}" class="btn btn-outline-success">Se connecter</a>
+        <a href="{{path('app_register')}}" class="btn btn-outline-primary">S'inscrire</a>
+      </div>
+      {%else%}
+          <!-- Infos produit       -->
+          
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+            {%endif%}
+
+
+
+            
+
+    </div>
+  </div>
+</nav>

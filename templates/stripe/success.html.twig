@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement réussi{% endblock %}
+
+{% block body %}
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg text-center p-4 border-0" style="max-width: 500px;">
+        <div class="card-body">
+            <!-- Icône succès Bootstrap -->
+            <div class="text-success mb-3">
+                <i class="bi bi-check-circle-fill" style="font-size: 3rem;"></i>
+            </div>
+            <h2 class="mb-3">Paiement réussi </h2>
+            <p class="text-muted">Votre paiement a bien été effectué avec Stripe.<br> Merci pour votre confiance !</p>
+
+            <a href="{{ path('app_home') }}" class="btn btn-success mt-3">
+                <i class="bi bi-house-door-fill"></i> Retour à l’accueil
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Échec du paiement{% endblock %}
+
+{% block body %}
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg text-center p-4 border-0" style="max-width: 500px;">
+        <div class="card-body">
+            <!-- Icône erreur Bootstrap -->
+            <div class="text-danger mb-3">
+                <i class="bi bi-x-circle-fill" style="font-size: 3rem;"></i>
+            </div>
+            <h2 class="mb-3 text-danger">Échec du paiement ❌</h2>
+            <p class="text-muted">Votre paiement n’a pas pu être traité.<br> Veuillez réessayer ou contacter le support.</p>
+
+            <div class="d-grid gap-2 mt-3">
+                <a href="{{ path('stripe_checkout') }}" class="btn btn-danger">
+                    <i class="bi bi-arrow-repeat"></i> Réessayer le paiement
+                </a>
+                <a href="{{ path('homepage') }}" class="btn btn-secondary">
+                    <i class="bi bi-house-door-fill"></i> Retour à l’accueil
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

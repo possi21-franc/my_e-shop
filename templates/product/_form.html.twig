@@ -1,0 +1,60 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-12 col-sm-6">
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-body">
+
+            {% set button_label = button_label|default('Enregistrer') %}
+
+          <h4 class="card-title mb-4 text-center text-primary">
+            {{ button_label == "Modifier" ? "Modifier le produit" : "Ajouter un produit" }}
+          </h4>
+
+          {{ form_start(form, { attr: { class: 'needs-validation', novalidate: 'novalidate' } }) }}
+
+          <div class="mb-3">
+            {{ form_label(form.name, 'Nom du produit', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+            {{ form_widget(form.name, {attr:{'class': 'form-control', 'placeholder': 'Ex: Chaussures Nike'}}) }}
+            <div class="form-text">Entrez le nom exact du produit</div>
+          </div>
+
+          <div class="mb-3">
+            {{ form_label(form.desciption, 'Description', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+            {{ form_widget(form.desciption, {attr:{'class': 'form-control', 'rows': 3, 'placeholder': 'Brève description du produit'}}) }}
+          </div>
+
+          {% if button_label != "Modifier" %}
+          <div class="mb-3">
+            {{ form_label(form.stock, 'Quantité', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+            {{ form_widget(form.stock, {attr:{'class': 'form-control', 'placeholder': 'Ex: 100'}}) }}
+          </div>
+          {% endif %}
+
+          <div class="mb-3">
+            {{ form_label(form.price, 'Prix (€)', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+            {{ form_widget(form.price, {attr:{'class': 'form-control', 'placeholder': 'Ex: 50'}}) }}
+          </div>
+
+          <div class="mb-3">
+            {{ form_label(form.image, 'Image du produit', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+            {{ form_widget(form.image, {attr:{'class': 'form-control'}}) }}
+            {{ form_errors(form.image) }}
+            <div class="form-text">Formats acceptés : JPG, PNG, WEBP</div>
+          </div>
+
+          <div class="mb-3">
+            {{ form_label(form.subCategories, 'Sous-catégorie', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+            {{ form_widget(form.subCategories, {attr:{'class': 'form-select'}}) }}
+          </div>
+
+          <button class="btn btn-primary w-100">
+            <i class="bi {{ button_label == 'Modifier' ? 'bi-pencil-square' : 'bi-plus-circle' }}"></i>
+            {{ button_label|default('Ajouter') }}
+          </button>
+
+          {{ form_end(form) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="mb-4">🛒 Mon panier</h1>
+
+    {% if items|length > 0 %}
+        <!-- Version tableau pour desktop -->
+        <div class="d-none d-md-block">
+            <table class="table table-hover align-middle shadow-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Produit</th>
+                        <th scope="col">Prix</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Sous-total</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ asset('uploads/images/' ~item.product.image) }}" 
+                                         alt="{{ item.product.name }}" 
+                                         class="img-thumbnail me-2" style="width: 60px; height: 60px; object-fit: cover;">
+                                    <span>{{ item.product.name }}</span>
+                                </div>
+                            </td>
+                            <td>{{ item.product.price }} €</td>
+
+                            <td class=" align-items-center">
+                                <a href="{{ path('app_cart_decrease', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-secondary me-2">-</a>
+                                <span class="mx-2">{{ item.quantity }}</span>
+                                <a href="{{ path('app_cart_new', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-secondary ms-2">+</a>
+                            </td>
+                            <td><strong>{{ item.product.price * item.quantity }} €</strong></td>
+                            <td>
+                                <a href="{{path('app_cart_remove', {'id':item.product.id})}}" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Supprimer
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Version cartes pour mobile -->
+        <div class="d-md-none">
+            {% for item in items %}
+                <div class="card mb-3 shadow-sm">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-4">
+                            <img src="{{ asset('uploads/images/' ~ item.product.image) }}" 
+                                 class="img-fluid" 
+                                 alt="{{ item.product.name }}">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ item.product.name }}</h6>
+                                <p class="card-text mb-1">Prix : {{ item.product.price }} €</p>
+                                <p class="card-text mb-1">Quantité : {{ item.quantity }}</p>
+                                <p class="card-text fw-bold">Sous-total : {{ item.product.price * item.quantity }} €</p>
+                                <div class="d-flex justify-content-between">
+                                <a href="{{ path('app_cart_decrease', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-secondary me-2">Reduice</a>
+                                <a href="{{ path('app_cart_new', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-secondary ms-2">Add</a>
+                                    <a href="{{path('app_cart_remove', {'id':item.product.id})}}" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Total -->
+        <div class="text-end mt-4">
+            <h4>Total : <span class="text-success">{{ total }} €</span></h4>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div class="d-flex justify-content-end mt-3 gap-2">
+            <a href="{{path('app_cart_remove_cart')}}" class="btn btn-outline-danger">Vider le panier</a>
+            <a href="{{path('app_order')}}" class="btn btn-success">Valider la commande</a>
+        </div>
+
+    {% else %}
+        <div class="alert alert-info text-center">
+            Votre panier est vide 😔
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

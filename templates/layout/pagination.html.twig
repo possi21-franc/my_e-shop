@@ -1,0 +1,97 @@
+{% if pageCount > 1 %}
+<nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">
+  <ul class="pagination pagination-sm">
+
+    {# Bouton précédent #}
+    {% if previous is defined %}
+      <li class="page-item">
+        <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}" 
+           class="page-link rounded-circle d-flex justify-content-center align-items-center mx-1"
+           style="width: 36px; height: 36px;">
+          <i class="bi bi-chevron-left"></i>
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link rounded-circle d-flex justify-content-center align-items-center mx-1"
+              style="width: 36px; height: 36px;">
+          <i class="bi bi-chevron-left"></i>
+        </span>
+      </li>
+    {% endif %}
+
+    {# Première page #}
+    {% if current > 3 %}
+      <li class="page-item">
+        <a class="page-link rounded-circle d-flex justify-content-center align-items-center mx-1"
+           style="width: 36px; height: 36px;"
+           href="{{ path(route, query|merge({(pageParameterName): 1})) }}">
+          1
+        </a>
+      </li>
+      {% if current > 4 %}
+        <li class="page-item disabled">
+          <span class="page-link border-0 bg-transparent">…</span>
+        </li>
+      {% endif %}
+    {% endif %}
+
+    {# Pages autour de la page courante #}
+    {% for page in (current-2)..(current+2) %}
+      {% if page > 0 and page <= pageCount %}
+        {% if page == current %}
+          <li class="page-item active">
+            <span class="page-link rounded-circle d-flex justify-content-center align-items-center mx-1"
+                  style="width: 36px; height: 36px;">
+              {{ page }}
+            </span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link rounded-circle d-flex justify-content-center align-items-center mx-1"
+               style="width: 36px; height: 36px;"
+               href="{{ path(route, query|merge({(pageParameterName): page})) }}">
+              {{ page }}
+            </a>
+          </li>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+    {# Dernière page #}
+    {% if current < pageCount - 2 %}
+      {% if current < pageCount - 3 %}
+        <li class="page-item disabled">
+          <span class="page-link border-0 bg-transparent">…</span>
+        </li>
+      {% endif %}
+      <li class="page-item">
+        <a class="page-link rounded-circle d-flex justify-content-center align-items-center mx-1"
+           style="width: 36px; height: 36px;"
+           href="{{ path(route, query|merge({(pageParameterName): pageCount})) }}">
+          {{ pageCount }}
+        </a>
+      </li>
+    {% endif %}
+
+    {# Bouton suivant #}
+    {% if next is defined %}
+      <li class="page-item">
+        <a class="page-link rounded-circle d-flex justify-content-center align-items-center mx-1"
+           style="width: 36px; height: 36px;"
+           href="{{ path(route, query|merge({(pageParameterName): next})) }}">
+          <i class="bi bi-chevron-right"></i>
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link rounded-circle d-flex justify-content-center align-items-center mx-1"
+              style="width: 36px; height: 36px;">
+          <i class="bi bi-chevron-right"></i>
+        </span>
+      </li>
+    {% endif %}
+
+  </ul>
+</nav>
+{% endif %}

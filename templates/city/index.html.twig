@@ -1,0 +1,49 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Liste des villes{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="text-center mb-4 fw-bold text-primary">Liste des villes</h1>
+
+    <div class="text-end mb-3">
+        <a href="{{ path('app_city_new') }}" class="btn btn-success">
+            <i class="bi bi-plus-circle me-1"></i> Ajouter une ville
+        </a>
+    </div>
+
+    <div class="table-responsive shadow-sm rounded-4 overflow-hidden">
+        <table class="table table-striped table-hover mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Frais de livraison</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for city in cities %}
+                    <tr>
+                        <td>{{ city.id }}</td>
+                        <td>{{ city.name }}</td>
+                        <td>{{ city.shippingCost }} €</td>
+                        <td class="d-flex flex-wrap gap-2">
+                            <a href="{{ path('app_city_show', {'id': city.id}) }}" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-eye me-1"></i> Voir
+                            </a>
+                            <a href="{{ path('app_city_edit', {'id': city.id}) }}" class="btn btn-outline-warning btn-sm">
+                                <i class="bi bi-pencil-square me-1"></i> Modifier
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">Aucune ville trouvée</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

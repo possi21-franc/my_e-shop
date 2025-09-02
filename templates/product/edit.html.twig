@@ -1,0 +1,28 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Modifier un produit{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-success text-white text-center">
+                    <h3 class="mb-0"><i class="bi bi-box-seam me-2"></i>Modifier le produit</h3>
+                </div>
+                <div class="card-body w-100">
+                    {{ include('product/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+                    <div class="d-flex justify-content-between mt-4 flex-wrap gap-2">
+                        <a href="{{ path('app_product_index') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left-circle me-1"></i> Retour à la liste
+                        </a>
+
+                        {{ include('product/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
