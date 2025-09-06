@@ -4,11 +4,11 @@
 
 {% block body %}
 <div class="container mt-5">
-    <h1 class="mb-3">{{subCategory.name}}</h1>
+    <h1 class="mb-3">Résultat de la recherche du mot "{{word}}" </h1>
 
     <div class="row">
         {% for product in products %}
-<div class="col-6 col-md-4 col-lg-3 mb-4">                <div class="card h-100 shadow-sm product-card position-relative">
+            <div class=" col-6 col-md-4 col-lg-3 mb-4">
                 <div class="card h-100 shadow-sm product-card position-relative">
                     
                     <!-- Prix en haut à droite -->
@@ -42,7 +42,6 @@
             </div>
         {% endfor %}
     </div>
-        {{knp_pagination_render(products, 'layout/pagination.html.twig')}}
 
 </div>
 {% endblock %}

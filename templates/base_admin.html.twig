@@ -25,7 +25,7 @@
             top: 0;
             left: 0;
             height: 100%;
-            width: 250px;
+            width: 270px;
             background: #0d6efd;
             color: #fff;
             transition: all 0.3s;
@@ -117,7 +117,47 @@
         <a href="{{ path('app_sub_category_index') }}"><i class="bi bi-tags-fill"></i> Sous-catégories</a>
         <a href="{{ path('app_product_index') }}"><i class="bi bi-box-seam"></i> Produits</a>
         <a href="{{ path('app_city_index') }}"><i class="bi bi-geo-alt"></i> Villes</a>
-        <a href="{{ path('app_order_show') }}"><i class="bi bi-bag-check"></i> Commandes</a>
+
+
+      <div class="nav flex-column">
+    <!-- Lien Commandes principal -->
+    <a class="nav-link d-flex align-items-center justify-content-between" 
+       data-bs-toggle="collapse" 
+       href="#collapseOrders" 
+       role="button" 
+       aria-expanded="false" 
+       aria-controls="collapseOrders">
+        <span class="d-flex align-items-center gap-2">
+            <i class="bi bi-bag-check fs-5 text-light"></i>
+            <span>Commandes</span>
+        </span>
+        <i class="bi bi-chevron-down"></i>
+    </a>
+
+    <!-- Sous-menu -->
+    <div class="collapse " id="collapseOrders">
+        <a class="nav-link d-flex align-items-center gap-2" href="{{ path('app_order_show', {'type':'is-completed'}) }}">
+            <i class="bi bi-check-circle-fill text-light fs-5"></i>
+            <span>commandes livrées</span>
+        </a>
+        <a class="nav-link d-flex align-items-center gap-2" href="{{ path('app_order_show', {'type':'pay-on-stripe-undelivery'}) }}">
+            <i class="bi bi-check-circle-fill text-light fs-5"></i>
+            <span>payées en ligne non livrées</span>
+        </a>
+
+        <a class="nav-link d-flex align-items-center gap-2" href="{{path('app_order_show', {'type':'pay-on-delivery-undelivery'})}}">
+            <i class="bi bi-truck text-light fs-5"></i>
+            <span> A payées à la livraison </span>
+        </a>
+        <a class="nav-link d-flex align-items-center gap-2" href="{{path('app_order_show', {'type':'pay-on-delivery-delivery'})}}">
+            <i class="bi bi-truck text-light fs-5"></i>
+            <span>Payées à la livraison</span>
+        </a>
+    </div>
+</div>
+
+
+
         <a href="{{ path('app_user') }}"><i class="bi bi-people-fill"></i> Utilisateurs</a>
         <a href="{{ path('app_logout') }}">  <i class="bi bi-box-arrow-right fs-5"></i> Se déconnecter</a>
     </div>

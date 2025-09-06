@@ -16,6 +16,8 @@ class AddProductHistoryRepository extends ServiceEntityRepository
         parent::__construct($registry, AddProductHistory::class);
     }
 
+    
+
     //    /**
     //     * @return AddProductHistory[] Returns an array of AddProductHistory objects
     //     */

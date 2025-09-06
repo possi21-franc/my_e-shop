@@ -3,6 +3,7 @@
 {% block title %}Produits{% endblock %}
 
 {% block body %}
+
 <div class="container mt-5">
 
     <div class="card mb-4 shadow-sm border-0 rounded-3 " >
@@ -36,11 +37,10 @@
 
 <div class="row">
         {% for product in products %}
-            <div class="col-md-3 mb-4">
-                <div class="card h-100 shadow-sm product-card position-relative">
+            <div class="col-6 col-md-4 col-lg-3 mb-4">                <div class="card h-100 shadow-sm product-card position-relative">
                     
                     <!-- Prix en haut à droite -->
-                    <span class="badge bg-success position-absolute top-0 end-0 m-2 p-2">
+                    <span class="badge bg-success position-absolute top-0 end-0 m-2 p-2 fs-6">
                       Prix :   {{ product.price }} €
                     </span>
 

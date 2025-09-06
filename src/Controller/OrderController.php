@@ -109,11 +109,23 @@ final class OrderController extends AbstractController
         ]);
     }
 
-        #[Route('/editor/order', name: 'app_order_show')]
+        #[Route('/editor/order/{type}/', name: 'app_order_show')]
 
-        public function getAllOrder(OderRepository $oderRepository, Request $request, PaginatorInterface $paginator):Response
+        public function getAllOrder( $type ,  OderRepository $oderRepository, Request $request, PaginatorInterface $paginator):Response
         {
-            $data = $oderRepository->findBy([],['id'=>'DESC']);
+
+            if($type == 'is-completed'){
+            $data = $oderRepository->findBy(['isCompleted'=> 1 ],['id'=>'DESC']);
+            }elseif($type == 'pay-on-stripe-undelivery'){
+            $data = $oderRepository->findBy(['isCompleted'=> null, 'payOnDelivery' => 0, 'isPaymentCompleted' => 1 ],['id'=>'DESC']);
+            }elseif($type == 'pay-on-delivery-delivery' ){
+             $data = $oderRepository->findBy(['isCompleted'=> 1, 'payOnDelivery' => 1,  ],['id'=>'DESC']);
+
+            }
+            elseif($type == 'pay-on-delivery-undelivery' ){
+             $data = $oderRepository->findBy(['isCompleted'=> null, 'payOnDelivery' => 1,  ],['id'=>'DESC']);
+
+            }
 
            // dd($orders);
 
@@ -129,23 +141,23 @@ final class OrderController extends AbstractController
 
                 #[Route('/editor/order/{id}/is_completed/update', name: 'app_order_is_completed_update')]
 
-                public function isCompleted($id , OderRepository $oderRepository, EntityManagerInterface $entityManager):Response
+                public function isCompleted($id , OderRepository $oderRepository, EntityManagerInterface $entityManager, Request $request):Response
                 {
                     $order  = $oderRepository->find($id);
                     $order->setIsCompleted(true);
                     $entityManager->flush();
                     $this->addFlash('sucess', "votre commande a été livré ");
-                    return $this->redirectToRoute('app_order_show');
+                    return $this->redirect($request->headers->get('referer'));
                 }
 
                  #[Route('/editor/order/{id}/remove', name: 'app_order_remove')]
 
-                 public function remove( EntityManagerInterface $entityManager, Oder $order):Response
+                 public function remove( EntityManagerInterface $entityManager, Oder $order,Request $request):Response
                  {
                     $entityManager->remove($order);
                     $entityManager->flush();
                     $this->addFlash('danger', "votre commande a été supprimée ");
-                    return $this->redirectToRoute('app_order_show');
+                    return $this->redirect($request->headers->get('referer'));
 
 
                  }
