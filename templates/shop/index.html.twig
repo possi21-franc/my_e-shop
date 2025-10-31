@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block body %}
+
+<section id="hero" class="mb-5 -mt-5">
+  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        <div class="carousel-image-wrapper">
+          <img src="{{ asset('assets/images/shoe.jpg') }}" class="d-block w-100 carousel-img" alt="Promo">
+          <div class="overlay"></div>
+        </div>
+        <div class="carousel-caption d-none d-md-block">
+          <h2 class="fw-bold">Découvrez nos nouveautés </h2>
+          <p>Les meilleurs produits sélectionnés pour vous.</p>
+          <a href="#productsList" class="btn btn-warning btn-lg px-4">
+            Commencer le shopping 
+          </a>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <div class="carousel-image-wrapper">
+          <img src="{{ asset('assets/images/bag.jpg') }}" class="d-block w-100 carousel-img" alt="Quality">
+          <div class="overlay"></div>
+        </div>
+        <div class="carousel-caption d-none d-md-block">
+          <h2 class="fw-bold">Qualité garantie </h2>
+          <p>Des produits certifiés et durables.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="carousel-image-wrapper">
+          <img src="{{ asset('assets/images/pull.jpg') }}" class="d-block w-100 carousel-img" alt="Quality">
+          <div class="overlay"></div>
+        </div>
+        <div class="carousel-caption d-none d-md-block">
+          <h2 class="fw-bold">Qualité garantie </h2>
+          <p>Des produits certifiés et durables.</p>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <div class="carousel-image-wrapper">
+          <img src="{{ asset('assets/images/pant.jpg') }}" class="d-block w-100 carousel-img" alt="Offers">
+          <div class="overlay"></div>
+        </div>
+        <div class="carousel-caption d-none d-md-block">
+          <h2 class="fw-bold">Livraison rapide </h2>
+          <p>Partout au Cameroun !</p>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+</section>
+
+
+<!-- FILTRE HORIZONTAL DES SOUS-CATEGORIES -->
+<div class="filter-bar d-flex flex-wrap gap-2 justify-content-center mb-4">
+    <a href="{{ path('app_shop') }}"
+       class="filter-chip {{ selectedSubCategory is null ? 'active' : '' }}">
+        Tous
+    </a>
+
+    {% for category in categories %}
+        {% for subCategory in category.subCategories %}
+            <a href="{{ path('app_shop', {subcategory: subCategory.id}) }}"
+               class="filter-chip {{ selectedSubCategory == subCategory.id ? 'active' : '' }}">
+                {{ subCategory.name }}
+            </a>
+        {% endfor %}
+    {% endfor %}
+</div>
+
+<div id="productContainer">
+    {% include 'shop/_products.html.twig' %}
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const chips = document.querySelectorAll(".filter-chip");
+    const container = document.getElementById("productContainer");
+
+    chips.forEach(chip => {
+        chip.addEventListener("click", function(e) {
+            e.preventDefault();
+            const url = this.getAttribute("href");
+
+            chips.forEach(c => c.classList.remove("active"));
+            this.classList.add("active");
+
+            container.innerHTML = "<div class='loader text-center'> <div class='spinner'></div></div>";
+
+            fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" }})
+                .then(res => res.text())
+                .then(html => container.innerHTML = html)
+                .catch(() => alert("Erreur chargement produits 😢"));
+        });
+    });
+});
+</script>
+
+{% endblock %}

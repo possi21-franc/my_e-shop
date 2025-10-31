@@ -1,0 +1,35 @@
+<section class="latest-products py-5">
+    <div class="container">
+
+        <div class="row g-4">
+            {% for product in products %}
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="product-card-modern">
+                        
+                        <a href="{{ path('app_home_product_show', {'id': product.id}) }}" class="text-decoration-none">
+                            <div class="product-image">
+                                <img src="{{ asset('uploads/images/' ~ product.image) }}"
+                                     alt="{{ product.name }}">
+                            </div>
+                        </a>
+
+                        <div class="product-info">
+                            <h5 class="product-name">{{ product.name }}</h5>
+                            <span class="product-price">{{ product.price }} €</span>
+                        </div>
+
+                        <a href="{{ path('app_cart_new', {'id': product.id}) }}" 
+                           class="add-cart-btn">
+                            <i class="bi bi-cart"></i> Ajouter au panier
+                        </a>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+        {{ knp_pagination_render(products, 'layout/pagination.html.twig') }}
+
+</section>

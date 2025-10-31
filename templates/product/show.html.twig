@@ -3,34 +3,74 @@
 {% block title %}Product{% endblock %}
 
 {% block body %}
+<style>
+    /* Effet zoom sur l'image */
+    .product-image {
+        transition: transform 0.3s ease;
+        border-radius: 8px;
+    }
+    .product-image:hover {
+        transform: scale(1.1);
+    }
+</style>
+
 <div class="container mt-4">
   <h1 class="mb-4 text-center">Détails du produit</h1>
 
   <div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-md-10">
       <div class="card shadow-sm border-0 rounded-3">
         <div class="card-body">
-          <h5 class="card-title text-primary mb-3">{{ product.name }}</h5>
-          
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <strong>ID :</strong> {{ product.id }}
-            </li>
-            <li class="list-group-item">
-              <strong>Description :</strong> {{ product.desciption }}
-            </li>
-            <li class="list-group-item">
-              <strong>Prix :</strong> {{ product.price }} €
-            </li>
-            <li class="list-group-item">
-              <strong>Stock :</strong> {{ product.stock }} 
-            </li>
-          </ul>
+
+          <h3 class="card-title text-primary text-center mb-4">{{ product.name }}</h3>
+
+          <div class="row g-4">
+            <!-- IMAGE À GAUCHE -->
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+              <img src="{{ asset('uploads/images/' ~ product.image) }}"
+                   alt="{{ product.name }}"
+                   class="img-fluid product-image shadow"
+                   style="object-fit: cover; width:100%; max-height:300px;">
+            </div>
+
+            <!-- INFOS DU PRODUIT À DROITE -->
+            <div class="col-md-8">
+              <h5 class="mb-3 text-secondary">Caractéristiques</h5>
+              <table class="table table-bordered align-middle">
+                  <tr>
+                    <th style="width: 180px;">ID</th>
+                    <td>{{ product.id }}</td>
+                  </tr>
+                  <tr>
+                    <th>Description</th>
+                    <td>{{ product.desciption }}</td>
+                  </tr>
+                  <tr>
+                    <th>Prix</th>
+                    <td class="fw-bold text-success fs-5">{{ product.price }} €</td>
+                  </tr>
+                  <tr>
+                    <th>Stock</th>
+                    <td>
+                      {% if product.stock > 20 %}
+                        <span class="badge bg-success">{{ product.stock }}</span>
+                      {% elseif product.stock > 5 %}
+                        <span class="badge bg-warning">{{ product.stock }}</span>
+                      {% else %}
+                        <span class="badge bg-danger">{{ product.stock }}</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+              </table>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
 
+  <!-- BOUTONS -->
   <div class="d-flex flex-wrap justify-content-center gap-2 mt-4">
       <a href="{{ path('app_product_index') }}" class="btn btn-outline-secondary">
         <i class="bi bi-arrow-left-circle"></i> Retour à la liste
@@ -43,5 +83,6 @@
       </a>
       {{ include('product/_delete_form.html.twig', { 'button_class': 'btn btn-danger' }) }}
   </div>
+
 </div>
 {% endblock %}

@@ -1,8 +1,357 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" data-bs-theme="dark">
-  <div class="container">
-    <a class="navbar-brand" href="{{ path('app_home') }}">MY E-SHOP</a>
+<style>
+  /* ==================== NAVBAR MODERNE ==================== */
+  .modern-navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+    padding: 0.75rem 0;
+    transition: all 0.3s ease;
+  }
 
-    <!-- 🔹 Bouton toggle custom -->
+  .modern-navbar.scrolled {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.12);
+    padding: 0.5rem 0;
+  }
+
+  /* Logo moderne */
+  .navbar-brand-modern {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+    transition: all 0.3s ease;
+  }
+
+  .navbar-brand-modern:hover {
+    transform: scale(1.05);
+  }
+
+  /* Navigation links */
+  .nav-link-modern {
+    color: #1e293b !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .nav-link-modern::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    transition: width 0.3s ease;
+  }
+
+  .nav-link-modern:hover::after,
+  .nav-link-modern.active::after {
+    width: 70%;
+  }
+
+  .nav-link-modern:hover {
+    background: rgba(59, 130, 246, 0.08);
+    color: #3b82f6 !important;
+  }
+
+  /* Dropdown moderne */
+  .dropdown-modern .dropdown-menu {
+    border: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    border-radius: 1rem;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    animation: slideDown 0.3s ease;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .dropdown-item-modern {
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    color: #475569;
+  }
+
+  .dropdown-item-modern:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+    color: #3b82f6;
+    transform: translateX(5px);
+  }
+
+  .dropdown-item-modern i {
+    transition: transform 0.2s ease;
+  }
+
+  .dropdown-item-modern:hover i {
+    transform: scale(1.2);
+  }
+
+  /* Panier moderne */
+  .cart-modern {
+    position: relative;
+  }
+
+  .cart-link-modern {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border-radius: 50%;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+
+  .cart-link-modern:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    color: white;
+  }
+
+  .cart-link-modern i {
+    font-size: 1.3rem;
+  }
+
+  .cart-badge-modern {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.45rem;
+    border-radius: 50%;
+    min-width: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  /* Boutons modernes */
+  .btn-modern-primary {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border: none;
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+
+  .btn-modern-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    color: white;
+  }
+
+  .btn-modern-outline {
+    border: 2px solid #3b82f6;
+    color: #3b82f6;
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    background: transparent;
+    transition: all 0.3s ease;
+  }
+
+  .btn-modern-outline:hover {
+    background: #3b82f6;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+
+  /* Search bar moderne */
+  .search-modern {
+    position: relative;
+    max-width: 400px;
+  }
+
+  .search-modern input {
+    border: 2px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 0.65rem 1rem 0.65rem 2.5rem;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+  }
+
+  .search-modern input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    background: white;
+  }
+
+  .search-modern i {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+     color:#475569;
+    font-size: 1.1rem;
+  }
+
+  .search-modern button  {
+    border-radius: 0.75rem;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border: none;
+    padding: 0.65rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: white;
+  }
+  .search-modern button i,
+  .search-modern button svg,
+  .search-modern button svg path {
+    color: #fff !important;
+    fill: #fff !important;
+  }
+  .search-modern button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    color:white;
+  }
+
+  /* Dashboard link moderne */
+  .dashboard-link-modern {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+    border-radius: 0.75rem;
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+
+  .dashboard-link-modern:hover {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+
+  /* Hamburger animé */
+  .custom-toggler {
+    border: none;
+    background: transparent;
+    width: 35px;
+    height: 30px;
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .toggler-icon {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: #3b82f6;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    position: absolute;
+    left: 0;
+  }
+
+  .toggler-icon:nth-child(1) {
+    top: 0;
+  }
+
+  .toggler-icon:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .toggler-icon:nth-child(3) {
+    bottom: 0;
+  }
+
+  .custom-toggler.active .toggler-icon:nth-child(1) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  .custom-toggler.active .toggler-icon:nth-child(2) {
+    opacity: 0;
+  }
+
+  .custom-toggler.active .toggler-icon:nth-child(3) {
+    bottom: 50%;
+    transform: translateY(50%) rotate(-45deg);
+  }
+
+  /* Responsive */
+  @media (max-width: 991px) {
+    .navbar-collapse {
+      background: white;
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .search-modern {
+      max-width: 100%;
+      margin-top: 1rem;
+    }
+
+    .nav-link-modern::after {
+      display: none;
+    }
+
+    .cart-modern {
+      margin-top: 1rem;
+    }
+  }
+
+  /* Effet de scroll */
+  body {
+    padding-top: 80px;
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg modern-navbar fixed-top" id="mainNavbar">
+  <div class="container">
+    <!-- Logo moderne -->
+    <a class="navbar-brand navbar-brand-modern" href="{{ path('app_home') }}">
+      <i class="bi bi-shop me-1"></i>MY E-SHOP
+    </a>
+
+    <!-- Bouton toggle avec animation -->
     <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
       data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
       aria-label="Toggle navigation">
@@ -12,83 +361,105 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarScroll">
-      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+      <!-- Navigation principale -->
+      <ul class="navbar-nav me-auto my-2 my-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Home</a>
+          <a class="nav-link nav-link-modern active" href="{{ path('app_home') }}">
+            <i class="bi bi-house-door me-1"></i>Accueil
+          </a>
         </li>
-
-        {% if categories is defined %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Catégories
-            </a>
-            <ul class="dropdown-menu shadow-lg rounded-3 p-2">
-              {% for category in categories %}
-                <li>
-                  <a class="dropdown-item d-flex align-items-center gap-2" href="">
-                    <i class="bi bi-list-ul fs-5 text-primary"></i>
-                    <span>{{ category.name }}</span>
-                  </a>
-                </li>
-
-                {% for subCategory in category.subCategories %}
-                  <li>
-                    <a class="dropdown-item d-flex align-items-center gap-2"
-                       href="{{ path('app_home_product_filter', {'id': subCategory.id}) }}">
-                      <i class="bi bi-tags-fill fs-5 text-success"></i>
-                      <span>{{ subCategory.name }}</span>
-                    </a>
-                  </li>
-                {% endfor %}
-                <li><hr class="dropdown-divider"></li>
-              {% endfor %}
-            </ul>
-          </li>
-        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link nav-link-modern" href="{{ path('app_shop') }}">
+            <i class="bi bi-shop me-1"></i>Boutique
+          </a>
+        </li>
       </ul>
 
-      {# avant d’afficher le badge #}
-      {% set cart_count = cart_count|default(0) %}
+      <!-- Section droite avec actions -->
+      <div class="d-flex align-items-center gap-3 flex-wrap">
+        
+        <!-- Barre de recherche (si connecté) -->
+        {% if app.user %}
+          <form method="get" action="{{ path('app_search_engine') }}" class="search-modern d-flex">
+            <div class="position-relative flex-grow-1">
+              <i class="bi bi-search"></i>
+              <input class="form-control" name="word" type="search" 
+                     placeholder="Rechercher un produit..." aria-label="Search" />
+            </div>
+            <button class="btn btn-primary ms-2" type="submit">
+              <i class="bi bi-search" id="search-clic"></i>
+            </button>
+          </form>
+        {% endif %}
 
-      {% if not is_granted("ROLE_ADMIN") %}
-        <div class="cart position-relative mx-2">
-          <a href="{{ path('app_cart') }}" class="cart-link">
-            <i class="bi bi-cart"></i>
-            {% if cart_count > 0 %}
-              <span class="cart-badge">{{ cart_count }}</span>
-            {% endif %}
+        <!-- Panier (si non admin) -->
+        {% set cart_count = cart_count|default(0) %}
+        {% if not is_granted("ROLE_ADMIN") %}
+          <div class="cart-modern">
+            <a href="{{ path('app_cart') }}" class="cart-link-modern">
+              <i class="bi bi-cart3"></i>
+              {% if cart_count > 0 %}
+                <span class="cart-badge-modern">{{ cart_count }}</span>
+              {% endif %}
+            </a>
+          </div>
+        {% endif %}
+
+        <!-- Dashboard admin -->
+        {% if is_granted("ROLE_ADMIN") %}
+          <a href="{{ path('admin_dashboard') }}" class="dashboard-link-modern">
+            <i class="bi bi-speedometer2"></i>
+            <span>Dashboard</span>
           </a>
-        </div>
-      {% endif %}
+        {% endif %}
 
-      {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('admin_dashboard') }}" class="d-flex align-items-center gap-2 text-white text-decoration-none p-2 rounded hover-bg">
-          <i class="bi bi-speedometer2 fs-5"></i>
-          <span>Dashboard</span>
-        </a>
-      {% endif %}
-
-      {% if app.user == false %}
-        <div class="gap-3 d-flex">
-          <a href="{{ path('app_login') }}" class="btn btn-outline-success">Se connecter</a>
-          <a href="{{ path('app_register') }}" class="btn btn-outline-primary">S'inscrire</a>
-        </div>
-      {% else %}
-        <form method="get" action="{{ path('app_search_engine') }}" class="d-flex" role="search">
-          <input class="form-control me-2" name="word" type="search" placeholder="rechercher un produit" aria-label="Search" />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      {% endif %}
+        <!-- Boutons connexion/inscription -->
+        {% if app.user == false %}
+          <div class="d-flex gap-2">
+            <a href="{{ path('app_login') }}" class="btn btn-modern-outline">
+              <i class="bi bi-box-arrow-in-right me-1"></i>Connexion
+            </a>
+            <a href="{{ path('app_register') }}" class="btn btn-modern-primary">
+              <i class="bi bi-person-plus me-1"></i>S'inscrire
+            </a>
+          </div>
+        {% endif %}
+      </div>
     </div>
   </div>
 </nav>
 
-
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    // Animation hamburger
     const toggler = document.querySelector(".custom-toggler");
     toggler.addEventListener("click", function () {
       this.classList.toggle("active");
+    });
+
+    // Effet scroll navbar
+    const navbar = document.getElementById("mainNavbar");
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 50) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+
+    // Ferme le menu mobile au clic sur un lien
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    const navCollapse = document.getElementById('navbarScroll');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth < 992) {
+          const bsCollapse = new bootstrap.Collapse(navCollapse, {
+            toggle: false
+          });
+          bsCollapse.hide();
+          toggler.classList.remove('active');
+        }
+      });
     });
   });
 </script>

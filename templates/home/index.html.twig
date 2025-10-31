@@ -1,47 +1,89 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produits{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-    <h1 class="mb-3">Produits</h1>
 
-    <div class="row">
-        {% for product in products %}
-<div class="col-6 col-md-4 col-lg-3 mb-4">                <div class="card h-100 shadow-sm product-card position-relative">
-                    
-                    <!-- Prix en haut à droite -->
-                    <span class="badge bg-success position-absolute top-0 end-0 m-2 p-2 fs-6">
-                        {{ product.price }} €
-                    </span>
+<section class="hero-section d-flex align-items-center text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            
+            <!-- Texte -->
+            <div class="col-md-6 text-center text-md-start">
+                <h1 class="display-4 fw-bold">
+                    Style pour <span class="accent">Hommes</span>, Femmes & Enfants
+                </h1>
+                <p class="mt-3">
+                    Découvrez les tendances du moment, vêtements & accessoires pour tous. 
+                    Livraison rapide & qualité garantie ✅
+                </p>
 
-                    <!-- Image avec effet hover -->
-                    <div class="image-container">
-                        <img src="{{ asset('uploads/images/' ~ product.image) }}" 
-                             class="card-img-top img-fluid" 
-                             alt="{{ product.name }}">
-                    </div>
-
-                    <div class="card-body d-flex flex-column">
-                        <!-- Titre stylisé -->
-                        <a href="{{ path('app_home_product_show', {'id': product.id}) }}" 
-                           class="text-decoration-none text-dark fw-bold product-title">
-                            <h5 class="card-title mb-2">{{ product.name }}</h5>
-                        </a>
-
-                        <p class="card-text text-muted">
-                            {{ product.desciption|slice(0, 50) }}...
-                        </p>
-                        <!-- Bouton avec icône panier Bootstrap -->
-                        <a href="{{path('app_cart_new', {'id':product.id})}}" class="btn btn-primary mt-auto">
-                            <i class="bi bi-cart me-2"></i> Ajouter au panier
-                        </a>
-                    </div>
-                </div>   
+                <div class="mt-4 d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
+                    <a href="{{path('app_shop')}}" class="btn btn-accent px-4 py-2">
+                        Boutique
+                    </a>
+                    <a href="" class="btn btn-outline-light px-4 py-2">
+                        Catégories
+                    </a>
+                </div>
             </div>
-        {% endfor %}
-    </div>
 
-    {{knp_pagination_render(products, 'layout/pagination.html.twig')}}
-</div>
+            <!-- Images mode fashion -->
+            <div class="col-md-6 d-none d-md-block">
+                <div class="hero-images">
+                    <img class="img1" src="{{ asset('assets/images/kids.webp') }}" alt="Mode Homme">
+                    <img class="img2" src="{{ asset('assets/images/women.jpg') }}" alt="Mode Femme">
+                    <img class="img3" src="{{ asset('assets/images/men2.jpg') }}" alt="Mode Enfant">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ✅ Section Derniers Produits -->
+<section class="latest-products py-5">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="fw-bold section-title">Nouvel Arrivage</h2>
+            <p class="text-muted">Découvrez les derniers articles ajoutés à notre collection</p>
+        </div>
+
+        <div class="row g-4">
+            {% for product in products %}
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="product-card-modern">
+                        
+                        <a href="{{ path('app_home_product_show', {'id': product.id}) }}" class="text-decoration-none">
+                            <div class="product-image">
+                                <img src="{{ asset('uploads/images/' ~ product.image) }}"
+                                     alt="{{ product.name }}">
+                            </div>
+                        </a>
+
+                        <div class="product-info">
+                            <h5 class="product-name">{{ product.name }}</h5>
+                            <span class="product-price">{{ product.price }} €</span>
+                        </div>
+
+                        <a href="{{ path('app_cart_new', {'id': product.id}) }}" 
+                           class="add-cart-btn">
+                            <i class="bi bi-cart"></i> Ajouter au panier
+                        </a>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{path('app_shop')}}" class="btn btn-dark px-4 py-2">
+                Voir toute la boutique
+            </a>
+        </div>
+
+    </div>
+</section>
 {% endblock %}
