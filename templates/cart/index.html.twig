@@ -35,7 +35,7 @@
                             <td class=" align-items-center">
                                 <a href="{{ path('app_cart_decrease', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-secondary me-2">-</a>
                                 <span class="mx-2">{{ item.quantity }}</span>
-                                <a href="{{ path('app_cart_new', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-secondary ms-2">+</a>
+                                <a href="{{ path('app_cart_add', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-secondary ms-2" data-id="{{ item.product.id }}" >+</a>
                             </td>
                             <td><strong>{{ item.product.price * item.quantity }} €</strong></td>
                             <td>
@@ -66,8 +66,8 @@
                                 <p class="card-text mb-1">Quantité : {{ item.quantity }}</p>
                                 <p class="card-text fw-bold">Sous-total : {{ item.product.price * item.quantity }} €</p>
                                 <div class="d-flex justify-content-between">
-                                <a href="{{ path('app_cart_decrease', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-secondary me-2">Reduice</a>
-                                <a href="{{ path('app_cart_new', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-secondary ms-2">Add</a>
+                                <a href="{{ path('app_cart_decrease', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-secondary me-2">Réduire</a>
+                                <a href="{{ path('app_cart_add', {'id': item.product.id}) }}" class="btn btn-sm btn-outline-secondary ms-2">Ajouter</a>
                                     <a href="{{path('app_cart_remove', {'id':item.product.id})}}" class="btn btn-sm btn-outline-danger">
                                         <i class="bi bi-trash"></i>
                                     </a>
@@ -86,7 +86,7 @@
 
         <!-- Boutons d'action -->
         <div class="d-flex justify-content-end mt-3 gap-2">
-            <a href="{{path('app_cart_remove_cart')}}" class="btn btn-outline-danger">Vider le panier</a>
+            <a href="{{path('app_cart_clear')}}" class="btn btn-outline-danger">Vider le panier</a>
             <a href="{{path('app_order')}}" class="btn btn-success">Valider la commande</a>
         </div>
 

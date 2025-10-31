@@ -193,7 +193,229 @@
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
   }
 
-  /* Search bar moderne */
+  /* Icônes mobiles */
+  .icon-btn-modern {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+    cursor: pointer;
+  }
+
+  .icon-btn-modern:hover,
+  .icon-btn-modern.active {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  }
+
+  .icon-btn-modern.active {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+  }
+
+  /* Panel mobile générique */
+  .mobile-panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-panel-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-panel {
+    position: fixed;
+    top: -100%;
+    left: 0;
+    right: 0;
+    background: white;
+    z-index: 1050;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .mobile-panel.active {
+    top: 0;
+  }
+
+  .mobile-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .mobile-panel-header h5 {
+    margin: 0;
+    color: #1e293b;
+    font-weight: 700;
+    font-size: 1.3rem;
+  }
+
+  .close-panel-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .close-panel-btn:hover {
+    background: #ef4444;
+    color: white;
+    transform: rotate(90deg);
+  }
+
+  /* Search panel mobile */
+  .search-modern-mobile {
+    position: relative;
+  }
+
+  .search-modern-mobile input {
+    border: 2px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 0.85rem 1rem 0.85rem 3rem;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .search-modern-mobile input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    background: white;
+    outline: none;
+  }
+
+  .search-modern-mobile i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 1.2rem;
+  }
+
+  /* Auth panel mobile */
+  .auth-buttons-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .auth-buttons-mobile .btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .auth-btn-login {
+    background: white;
+    border: 2px solid #3b82f6;
+    color: #3b82f6;
+  }
+
+  .auth-btn-login:hover {
+    background: #3b82f6;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+  }
+
+  .auth-btn-register {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border: none;
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+
+  .auth-btn-register:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    color: white;
+  }
+
+  .auth-divider {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+    color: #94a3b8;
+    font-size: 0.9rem;
+  }
+
+  .auth-divider::before,
+  .auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e2e8f0;
+  }
+
+  .auth-divider::before {
+    margin-right: 1rem;
+  }
+
+  .auth-divider::after {
+    margin-left: 1rem;
+  }
+
+  .auth-info {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(139, 92, 246, 0.05));
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin-top: 1.5rem;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+  }
+
+  .auth-info p {
+    margin: 0;
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .auth-info i {
+    color: #3b82f6;
+    margin-right: 0.5rem;
+  }
+
+  /* Search bar moderne (desktop) */
   .search-modern {
     position: relative;
     max-width: 400px;
@@ -218,11 +440,11 @@
     left: 0.75rem;
     top: 50%;
     transform: translateY(-50%);
-     color:#475569;
+    color: #475569;
     font-size: 1.1rem;
   }
 
-  .search-modern button  {
+  .search-modern button {
     border-radius: 0.75rem;
     background: linear-gradient(135deg, #3b82f6, #8b5cf6);
     border: none;
@@ -231,16 +453,10 @@
     transition: all 0.3s ease;
     color: white;
   }
-  .search-modern button i,
-  .search-modern button svg,
-  .search-modern button svg path {
-    color: #fff !important;
-    fill: #fff !important;
-  }
+
   .search-modern button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    color:white;
   }
 
   /* Dashboard link moderne */
@@ -324,17 +540,8 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
-    .search-modern {
-      max-width: 100%;
-      margin-top: 1rem;
-    }
-
     .nav-link-modern::after {
       display: none;
-    }
-
-    .cart-modern {
-      margin-top: 1rem;
     }
   }
 
@@ -351,16 +558,44 @@
       <i class="bi bi-shop me-1"></i>MY E-SHOP
     </a>
 
-    <!-- Bouton toggle avec animation -->
-    <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
-      data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
-      aria-label="Toggle navigation">
-      <span class="toggler-icon"></span>
-      <span class="toggler-icon"></span>
-      <span class="toggler-icon"></span>
-    </button>
+    <!-- Icônes mobiles (toujours visibles sur mobile) -->
+    <div class="d-flex d-lg-none align-items-center gap-2 order-2">
+      <!-- Icône recherche mobile -->
+      <button class="icon-btn-modern" id="mobileSearchToggle" type="button">
+        <i class="bi bi-search"></i>
+      </button>
 
-    <div class="collapse navbar-collapse" id="navbarScroll">
+      <!-- Icône panier mobile -->
+      {% set cart_count = cart_count|default(0) %}
+      {% if not is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('app_cart') }}" class="cart-link-modern">
+              <i class="bi bi-cart3"></i>
+                 <span id="cart-count-mobile" 
+                    class="badge bg-danger position-absolute top-0 end-0 translate-middle small">
+                  {{ cart_count  }}
+              </span>
+            </a>
+
+      {% endif %}
+
+      <!-- Icône user mobile (si non connecté) -->
+      {% if app.user == false %}
+        <button class="icon-btn-modern" id="mobileAuthToggle" type="button">
+          <i class="bi bi-person"></i>
+        </button>
+      {% endif %}
+
+      <!-- Hamburger toggle -->
+      <button class="navbar-toggler custom-toggler ms-2" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="toggler-icon"></span>
+        <span class="toggler-icon"></span>
+        <span class="toggler-icon"></span>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse order-3 order-lg-2" id="navbarScroll">
       <!-- Navigation principale -->
       <ul class="navbar-nav me-auto my-2 my-lg-0">
         <li class="nav-item">
@@ -375,32 +610,24 @@
         </li>
       </ul>
 
-      <!-- Section droite avec actions -->
-      <div class="d-flex align-items-center gap-3 flex-wrap">
-        
-        <!-- Barre de recherche (si connecté) -->
-        {% if app.user %}
-          <form method="get" action="{{ path('app_search_engine') }}" class="search-modern d-flex">
-            <div class="position-relative flex-grow-1">
-              <i class="bi bi-search"></i>
-              <input class="form-control" name="word" type="search" 
-                     placeholder="Rechercher un produit..." aria-label="Search" />
-            </div>
-            <button class="btn btn-primary ms-2" type="submit">
-              <i class="bi bi-search" id="search-clic"></i>
-            </button>
-          </form>
-        {% endif %}
+      <!-- Section droite avec actions (desktop uniquement) -->
+      <div class="d-none d-lg-flex align-items-center gap-3">
+        <!-- Barre de recherche desktop -->
+        <form method="get" action="{{ path('app_search_engine') }}" class="search-modern d-flex">
+          <i class="bi bi-search"></i>
+          <input class="form-control" name="word" type="search"
+                 placeholder="Rechercher un produit..." />
+        </form>
 
-        <!-- Panier (si non admin) -->
-        {% set cart_count = cart_count|default(0) %}
+        <!-- Panier desktop -->
         {% if not is_granted("ROLE_ADMIN") %}
           <div class="cart-modern">
             <a href="{{ path('app_cart') }}" class="cart-link-modern">
               <i class="bi bi-cart3"></i>
-              {% if cart_count > 0 %}
-                <span class="cart-badge-modern">{{ cart_count }}</span>
-              {% endif %}
+                 <span id="cart-count-desktop" 
+                    class="badge bg-danger position-absolute top-0 end-0 translate-middle small">
+                  {{ cart_count ?? 0 }}
+              </span>
             </a>
           </div>
         {% endif %}
@@ -428,6 +655,62 @@
     </div>
   </div>
 </nav>
+
+<!-- Panel de recherche mobile -->
+<div class="mobile-panel-overlay" id="mobileSearchOverlay"></div>
+<div class="mobile-panel" id="mobileSearchPanel">
+  <div class="mobile-panel-header">
+    <h5><i class="bi bi-search me-2"></i>Rechercher</h5>
+    <button class="close-panel-btn" id="closeMobileSearch">
+      <i class="bi bi-x"></i>
+    </button>
+  </div>
+  <form method="get" action="{{ path('app_search_engine') }}" class="search-modern-mobile">
+    <div class="position-relative">
+      <i class="bi bi-search"></i>
+      <input class="form-control" type="search" name="word"
+             placeholder="Rechercher un produit..." autofocus />
+    </div>
+  </form>
+</div>
+
+<!-- Panel d'authentification mobile -->
+<div class="mobile-panel-overlay" id="mobileAuthOverlay"></div>
+<div class="mobile-panel" id="mobileAuthPanel">
+  <div class="mobile-panel-header">
+    <h5><i class="bi bi-person-circle me-2"></i>Mon compte</h5>
+    <button class="close-panel-btn" id="closeMobileAuth">
+      <i class="bi bi-x"></i>
+    </button>
+  </div>
+  
+  <div class="auth-buttons-mobile">
+    <a href="{{ path('app_login') }}" class="btn auth-btn-login">
+      <i class="bi bi-box-arrow-in-right"></i>
+      <span>Se connecter</span>
+    </a>
+    
+    <div class="auth-divider">ou</div>
+    
+    <a href="{{ path('app_register') }}" class="btn auth-btn-register">
+      <i class="bi bi-person-plus"></i>
+      <span>Créer un compte</span>
+    </a>
+  </div>
+
+  <div class="auth-info">
+    <p>
+      <i class="bi bi-info-circle"></i>
+      <strong>Pourquoi créer un compte ?</strong>
+    </p>
+    <ul style="margin: 0.75rem 0 0 1.5rem; padding: 0; color: #64748b; font-size: 0.9rem;">
+      <li>Suivre vos commandes</li>
+      <li>Accéder à vos favoris</li>
+      <li>Paiement plus rapide</li>
+      <li>Offres exclusives</li>
+    </ul>
+  </div>
+</div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -461,5 +744,150 @@
         }
       });
     });
+
+    // Gestion de la recherche mobile
+    const mobileSearchToggle = document.getElementById('mobileSearchToggle');
+    const mobileSearchPanel = document.getElementById('mobileSearchPanel');
+    const mobileSearchOverlay = document.getElementById('mobileSearchOverlay');
+    const closeMobileSearch = document.getElementById('closeMobileSearch');
+
+    // Gestion de l'authentification mobile
+    const mobileAuthToggle = document.getElementById('mobileAuthToggle');
+    const mobileAuthPanel = document.getElementById('mobileAuthPanel');
+    const mobileAuthOverlay = document.getElementById('mobileAuthOverlay');
+    const closeMobileAuth = document.getElementById('closeMobileAuth');
+
+    function openMobileSearch() {
+      mobileSearchPanel.classList.add('active');
+      mobileSearchOverlay.classList.add('active');
+      mobileSearchToggle.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        mobileSearchPanel.querySelector('input').focus();
+      }, 400);
+    }
+
+    function closeMobileSearchPanel() {
+      mobileSearchPanel.classList.remove('active');
+      mobileSearchOverlay.classList.remove('active');
+      mobileSearchToggle.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    function openMobileAuth() {
+      mobileAuthPanel.classList.add('active');
+      mobileAuthOverlay.classList.add('active');
+      if (mobileAuthToggle) {
+        mobileAuthToggle.classList.add('active');
+      }
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileAuthPanel() {
+      mobileAuthPanel.classList.remove('active');
+      mobileAuthOverlay.classList.remove('active');
+      if (mobileAuthToggle) {
+        mobileAuthToggle.classList.remove('active');
+      }
+      document.body.style.overflow = 'auto';
+    }
+
+    // Event listeners pour la recherche
+    if (mobileSearchToggle) {
+      mobileSearchToggle.addEventListener('click', openMobileSearch);
+    }
+    if (closeMobileSearch) {
+      closeMobileSearch.addEventListener('click', closeMobileSearchPanel);
+    }
+    if (mobileSearchOverlay) {
+      mobileSearchOverlay.addEventListener('click', closeMobileSearchPanel);
+    }
+
+    // Event listeners pour l'authentification
+    if (mobileAuthToggle) {
+      mobileAuthToggle.addEventListener('click', openMobileAuth);
+    }
+    if (closeMobileAuth) {
+      closeMobileAuth.addEventListener('click', closeMobileAuthPanel);
+    }
+    if (mobileAuthOverlay) {
+      mobileAuthOverlay.addEventListener('click', closeMobileAuthPanel);
+    }
+
+    // Fermer avec Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (mobileSearchPanel && mobileSearchPanel.classList.contains('active')) {
+          closeMobileSearchPanel();
+        }
+        if (mobileAuthPanel && mobileAuthPanel.classList.contains('active')) {
+          closeMobileAuthPanel();
+        }
+      }
+    });
   });
+
+
+// mise à jour dynamique du panier
+ // Mettre à jour le badge depuis le serveur
+function updateCartBadge() {
+    fetch('/cart/count', { headers: { "X-Requested-With": "XMLHttpRequest" }})
+        .then(res => res.json())
+        .then(data => {
+            const count = data.count;
+            const badges = document.querySelectorAll("#cart-count, #cart-count-mobile, #cart-count-desktop");
+
+            badges.forEach(badge => {
+                if (!badge) return;
+
+                badge.textContent = count;
+
+                // Si aucun produit => cacher badge
+                if (count > 0) {
+                    badge.style.display = "inline-flex"; // Affiche le badge
+                } else {
+                    badge.style.display = "none"; // Cache complètement
+                }
+            });
+        })
+        .catch(err => console.error("Erreur difficulté badge panier :", err));
+}
+
+ function showToast(message = "Produit ajouté au panier ✅") {
+    const toast = document.getElementById("cart-toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2500); // disparaît après 2.5s
+}
+
+
+// Initialisation au chargement
+document.addEventListener("DOMContentLoaded", updateCartBadge);
+
+// Actions sur le panier : add, remove, decrease, clear
+document.addEventListener("click", function(e) {
+    let target = e.target.closest(".add-cart-btn, .remove-cart-btn, .decrease-cart-btn, .clear-cart-btn");
+    if (target) {
+        e.preventDefault();
+        const url = target.getAttribute("href");
+        fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" }})
+            .then(res => res.json())
+            .then(data => {
+                // Mettre à jour badge
+                updateCartBadge();
+                 showToast();
+                // Animation optionnelle
+                const cartIcon = document.getElementById("cart-count");
+                if (cartIcon) {
+                    cartIcon.classList.add("cart-bounce");
+                    setTimeout(() => cartIcon.classList.remove("cart-bounce"), 600);
+                }
+            });
+    }
+});
+
+
 </script>

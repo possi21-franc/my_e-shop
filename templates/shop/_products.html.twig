@@ -19,8 +19,9 @@
                             <span class="product-price">{{ product.price }} €</span>
                         </div>
 
-                        <a href="{{ path('app_cart_new', {'id': product.id}) }}" 
-                           class="add-cart-btn">
+                        <a href="{{ path('app_cart_add', {'id': product.id}) }}" 
+                           class="add-cart-btn"
+                            data-id="{{ product.id }}">
                             <i class="bi bi-cart"></i> Ajouter au panier
                         </a>
                     </div>

@@ -23,7 +23,7 @@
         <h5 class="card-title fw-bold">Prix : {{ product.price }}€</h5>
         <!-- Bouton Ajouter au panier -->
         <div class="mt-auto">
-          <a href="{{ path('app_cart_new', {'id': product.id}) }}" 
+          <a href="{{ path('app_cart_add', {'id': product.id}) }}" 
                            class="add-cart-btn">
                             <i class="bi bi-cart"></i> Ajouter au panier
                         </a>
@@ -58,7 +58,7 @@
                             <span class="product-price">{{ product.price }} €</span>
                         </div>
 
-                        <a href="{{ path('app_cart_new', {'id': product.id}) }}" 
+                        <a href="{{ path('app_cart_add', {'id': product.id}) }}" 
                            class="add-cart-btn">
                             <i class="bi bi-cart"></i> Ajouter au panier
                         </a>

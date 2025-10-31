@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
             chips.forEach(c => c.classList.remove("active"));
             this.classList.add("active");
 
-            container.innerHTML = "<div class='loader text-center'> <div class='spinner'></div></div>";
+container.innerHTML = "<div class='loader'><div class='dot'></div><div class='dot'></div><div class='dot'></div></div>";
 
             fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" }})
                 .then(res => res.text())
