@@ -39,8 +39,45 @@
             {{ form_label(form.image, 'Image du produit', {'label_attr': {'class': 'form-label fw-bold'}}) }}
             {{ form_widget(form.image, {attr:{'class': 'form-control'}}) }}
             {{ form_errors(form.image) }}
+            {% if product.image %}
+        <div class="mt-2">
+            <img src="{{ asset('uploads/images/' ~ product.image) }}"
+                 alt="Image principale" width="70">
+        </div>
+    {% endif %}
             <div class="form-text">Formats acceptés : JPG, PNG, WEBP</div>
           </div>
+          {# Après le champ image principale #}
+
+
+{# AJOUTEZ CETTE VÉRIFICATION #}
+    <div class="mb-3">
+        {{ form_label(form.imagesFiles, 'Images supplémentaires') }}
+        {{ form_widget(form.imagesFiles, {
+            'attr': {
+                'class': 'form-control',
+                'multiple': 'multiple'
+            }
+        }) }}
+
+        {% if product.imageProducts|length > 0 %}
+        <div class="mt-2 d-flex flex-wrap gap-2">
+            {% for img in product.imageProducts %}
+                <div class="position-relative">
+                    <img src="{{ asset('uploads/images/' ~ img.image) }}" alt="Image secondaire" width="100">
+                    {# Optionnel : bouton pour supprimer l'image via AJAX ou route #}
+                    <a href="{{ path('app_image_remove', {'id': img.id}) }}"
+                       class="btn btn-sm btn-danger position-absolute top-0 end-0"
+                       onclick="return confirm('Voulez-vous supprimer cette image ?');">&times;</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+        {% if form_errors(form.imagesFiles) %}
+            <div class="text-danger small">{{ form_errors(form.imagesFiles) }}</div>
+        {% endif %}
+    </div>
 
           <div class="mb-3">
             {{ form_label(form.subCategories, 'Sous-catégorie', {'label_attr': {'class': 'form-label fw-bold'}}) }}

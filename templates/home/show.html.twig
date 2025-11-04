@@ -6,13 +6,27 @@
 
 <div class="container mt-5">
 
-    <div class="card mb-4 shadow-sm border-0 rounded-3 " >
+   <div class="card mb-4 shadow-sm border-0 rounded-3">
   <div class="row g-0">
-    <!-- Image produit -->
-    <div class="col-md-3 d-flex align-items-center">
-      <img src="{{ asset('uploads/images/' ~ product.image) }}" 
-           class="img-fluid rounded-start" 
+    <!-- Colonne image principale + miniatures -->
+    <div class="col-md-3 d-flex flex-column align-items-center p-0"> {# p-0 supprime padding #}
+      <!-- Image principale -->
+      <img id="mainProductImage" 
+           src="{{ asset('uploads/images/' ~ product.image) }}" 
+           class="img-fluid rounded-start main-img" 
            alt="{{ product.name }}">
+
+      {# Miniatures images secondaires #}
+      {% if product.imageProducts is not empty %}
+        <div class="d-flex flex-wrap gap-2 justify-content-center mt-2 px-1">
+          {% for img in product.imageProducts %}
+            <img src="{{ asset('uploads/images/' ~ img.image) }}" 
+                 class="img-fluid rounded thumbnail-img" 
+                 alt="Image secondaire"
+                 onclick="swapWithMain(this)">
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
 
     <!-- Infos produit -->
@@ -21,17 +35,60 @@
         <h5 class="card-title fw-bold">{{ product.name }}</h5>
         <p class="card-text text-muted">{{ product.desciption }}</p>
         <h5 class="card-title fw-bold">Prix : {{ product.price }}€</h5>
+
         <!-- Bouton Ajouter au panier -->
         <div class="mt-auto">
-          <a href="{{ path('app_cart_add', {'id': product.id}) }}" 
-                           class="add-cart-btn">
-                            <i class="bi bi-cart"></i> Ajouter au panier
-                        </a>
+          <a href="{{ path('app_cart_add', {'id': product.id}) }}" class="add-cart-btn btn btn-primary">
+            <i class="bi bi-cart me-1"></i> Ajouter au panier
+          </a>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+/* Image principale pleine hauteur et largeur du conteneur */
+.main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* garde les proportions sans déformation */
+}
+
+/* Miniatures */
+.thumbnail-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    padding: 5px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.thumbnail-img:hover {
+    transform: scale(1.1);
+    border-color: #0d6efd;
+}
+
+.thumbnail-img.active {
+    border-color: #0d6efd;
+    box-shadow: 0 0 5px rgba(13,110,253,0.6);
+}
+</style>
+
+<script>
+function swapWithMain(thumbnail) {
+    const mainImage = document.getElementById('mainProductImage');
+    const tempSrc = mainImage.src;
+    mainImage.src = thumbnail.src;
+    thumbnail.src = tempSrc;
+
+    document.querySelectorAll('.thumbnail-img').forEach(img => img.classList.remove('active'));
+    thumbnail.classList.add('active');
+}
+</script>
 
 
 <h2 class="text-center mb-4">Derniers Produits Ajoutés </h2>
@@ -53,7 +110,7 @@
                             </div>
                         </a>
 
-                        <div class="product-info">
+                        <div class="product-info text-center">
                             <h5 class="product-name">{{ product.name }}</h5>
                             <span class="product-price">{{ product.price }} €</span>
                         </div>

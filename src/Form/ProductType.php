@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\All; // AJOUTEZ CETTE LIGNE
 
 class ProductType extends AbstractType
 {
@@ -18,40 +19,52 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('desciption', TextareaType::class,[
+            ->add('desciption', TextareaType::class, [
                 'attr' => [
-        'class' => 'form-control',
-        'rows' => 4, // nombre de lignes par défaut
-        'placeholder' => 'Entrez une description du produit',
-    ],
+                    'class' => 'form-control',
+                    'rows' => 4,
+                    'placeholder' => 'Entrez une description du produit',
+                ],
             ])
             ->add('stock')
             ->add('price')
-            ->add('image',FileType::class, [
-                'label' =>'image de produit',
-                'mapped'=> false,
-                'required'=> false,
+            
+            // Image principale (mappée à l'entité)
+            ->add('image', FileType::class, [
+                'label' => 'Image principale',
+                'mapped' => false,
+                'required' => false,
                 'constraints' => [
                     new File([
-                        "maxSize"=>'1024k',
-                        "mimeTypes"=>[
-                            'image/jpg',
-                            'image/png',
-                            'image/jpeg'
-
-
-                        ],
-                           'mimeTypesMessage'=>"votre image de produit doit être au format vailde  (JPEG ou PNG)"
+                        'maxSize' => '2048k', // Augmenté à 2MB
+                        'mimeTypes' => ['image/jpg', 'image/png', 'image/jpeg', 'image/webp'],
+                        'mimeTypesMessage' => "Format d'image invalide (JPEG, PNG ou WEBP).",
                     ])
                 ]
-                
             ])
+            
+            // Images secondaires (non mappées) - CORRECTION ICI
+            ->add('imagesFiles', FileType::class, [
+                'label' => 'Images secondaires',
+                'mapped' => false,
+                'required' => false,
+                'multiple' => true,
+                'constraints' => [
+                    new All([ // ✅ Utilisez All au lieu de File directement
+                        new File([
+                            'maxSize' => '2048k',
+                            'mimeTypes' => ['image/jpg', 'image/png', 'image/jpeg', 'image/webp'],
+                            'mimeTypesMessage' => "Format d'image invalide (JPEG, PNG ou WEBP).",
+                        ])
+                    ])
+                ]
+            ])
+            
             ->add('subCategories', EntityType::class, [
                 'class' => SubCategory::class,
                 'choice_label' => 'name',
                 'multiple' => true,
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

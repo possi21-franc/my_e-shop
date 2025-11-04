@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\AddProductHistory;
+use App\Entity\ImageProduct;
 use App\Entity\Product;
 use App\Form\AddProductHistoryType;
 use App\Form\ProductType;
@@ -31,48 +32,76 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger ): Response
-    {
-        $product = new Product();
-        $form = $this->createForm(ProductType::class, $product);
-        $form->handleRequest($request);
+public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+{
+    $product = new Product();
+    $form = $this->createForm(ProductType::class, $product);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $image = $form->get('image')->getData();
+    if ($form->isSubmitted() && $form->isValid()) {
 
-            if($image){
-                $originalName = pathinfo($image->getClientOriginalName(), flags:PATHINFO_FILENAME);
-                $safeFileName = $slugger->slug($originalName) ; 
-                $newFileName = $safeFileName . "-" . uniqid() . '.' . $image->guessExtension();
+        // ✅ Upload image principale déjà existante
+        $image = $form->get('image')->getData();
+        if ($image) {
+            $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFileName = $slugger->slug($originalName);
+            $newFileName = $safeFileName . "-" . uniqid() . "." . $image->guessExtension();
 
-                try {
-                    $image->move(
-                       $this->getParameter(name: 'image_dir'),
-                       $newFileName 
-                    );
-                } catch (FileException $exception) {}
+            try {
+                $image->move(
+                    $this->getParameter('image_dir'),
+                    $newFileName
+                );
+            } catch (\Exception $exception) {}
 
-                $product->setImage($newFileName);
-            }
-            $entityManager->persist($product);
-            $entityManager->flush();
-
-            $stockHistory = new AddProductHistory();
-            $stockHistory->setQte($product->getStock());
-            $stockHistory->setProduct($product);
-            $stockHistory->setCreatedAt(new \DateTimeImmutable());
-            $entityManager->persist($stockHistory);
-            $entityManager->flush();
-            $this->addFlash('success' , 'Produit ajouté avec succes !');
-
-            return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+            $product->setImage($newFileName);
         }
 
-        return $this->render('product/new.html.twig', [
-            'product' => $product,
-            'form' => $form,
-        ]);
+        // ✅ Upload des images secondaires (multiple)
+        $imagesFiles = $form->get('imagesFiles')->getData();
+        if ($imagesFiles) {
+            foreach ($imagesFiles as $file) {
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFileName = $slugger->slug($originalName);
+                $newFileName = $safeFileName . "-" . uniqid() . "." . $file->guessExtension();
+
+                try {
+                    $file->move(
+                        $this->getParameter('image_dir'),
+                        $newFileName
+                    );
+                } catch (\Exception $exception) {}
+
+                $imageProduct = new ImageProduct();
+                $imageProduct->setImage($newFileName);
+                $imageProduct->setProduct($product);
+
+                $entityManager->persist($imageProduct);
+            }
+        }
+
+        // ✅ Sauvegarde produit + historique comme avant
+        $entityManager->persist($product);
+        $entityManager->flush();
+
+        $stockHistory = new AddProductHistory();
+        $stockHistory->setQte($product->getStock());
+        $stockHistory->setProduct($product);
+        $stockHistory->setCreatedAt(new \DateTimeImmutable());
+
+        $entityManager->persist($stockHistory);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Produit ajouté avec succès !');
+        return $this->redirectToRoute('app_product_index');
     }
+
+    return $this->render('product/new.html.twig', [
+        'product' => $product,
+        'form' => $form
+    ]);
+}
+
 
     #[Route('/{id}', name: 'app_product_show', methods: ['GET'])]
     public function show(Product $product): Response
@@ -83,38 +112,87 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
-    {
-        $form = $this->createForm(ProductUpdateFormType::class, $product);
-        $form->handleRequest($request);
+public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+{
+    $form = $this->createForm(ProductUpdateFormType::class, $product);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+        // ✅ Mise à jour image principale
         $image = $form->get('image')->getData();
+        if ($image) {
+            $originalName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFileName = $slugger->slug($originalName);
+            $newFileName = $safeFileName . "-" . uniqid() . "." . $image->guessExtension();
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $image->move(
+                    $this->getParameter('image_dir'),
+                    $newFileName
+                );
+            } catch (\Exception $exception) {}
 
-             if($image){
-                $originalName = pathinfo($image->getClientOriginalName(), flags:PATHINFO_FILENAME);
-                $safeFileName = $slugger->slug($originalName) ; 
-                $newFileName = $safeFileName . "-" . uniqid() . '.' . $image->guessExtension();
-
-                try {
-                    $image->move(
-                       $this->getParameter(name: 'image_dir'),
-                       $newFileName 
-                    );
-                } catch (FileException $exception) {}
-
-                $product->setImage($newFileName);
-            }
-            $entityManager->flush();
-            $this->addFlash('success' , 'Produit modifé avec succes !');
-            return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+            $product->setImage($newFileName);
         }
 
-        return $this->render('product/edit.html.twig', [
-            'product' => $product,
-            'form' => $form,
-        ]);
+        // ✅ Upload nouvelles images secondaires (multiple)
+        $imagesFiles = $form->get('imagesFiles')->getData();
+        if ($imagesFiles) {
+            foreach ($imagesFiles as $file) {
+                $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFileName = $slugger->slug($originalName);
+                $newFileName = $safeFileName . "-" . uniqid() . "." . $file->guessExtension();
+
+                try {
+                    $file->move(
+                        $this->getParameter('image_dir'),
+                        $newFileName
+                    );
+                } catch (\Exception $exception) {}
+
+                $imageProduct = new ImageProduct();
+                $imageProduct->setImage($newFileName);
+                $imageProduct->setProduct($product);
+
+                $entityManager->persist($imageProduct);
+            }
+        }
+
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Produit modifié avec succès !');
+        return $this->redirectToRoute('app_product_index');
     }
+
+    return $this->render('product/edit.html.twig', [
+        'product' => $product,
+        'form' => $form,
+    ]);
+}
+
+
+#[Route('/image/remove/{id}', name: 'app_image_remove', methods: ['GET','POST'])]
+public function removeImage(ImageProduct $imageProduct, EntityManagerInterface $entityManager): Response
+{
+    // Récupérer le chemin de l'image sur le serveur
+    $imagePath = $this->getParameter('image_dir') . '/' . $imageProduct->getImage();
+
+    // Supprimer le fichier du serveur si il existe
+    if (file_exists($imagePath)) {
+        unlink($imagePath);
+    }
+
+    // Supprimer l'entité de la base de données
+    $entityManager->remove($imageProduct);
+    $entityManager->flush();
+
+    $this->addFlash('success', 'Image supprimée avec succès !');
+
+    // Redirection vers la page précédente (édition du produit)
+    return $this->redirect($this->generateUrl('app_product_edit', ['id' => $imageProduct->getProduct()->getId()]));
+}
+
 
     #[Route('/{id}', name: 'app_product_delete', methods: ['POST'])]
     public function delete(Request $request, Product $product, EntityManagerInterface $entityManager): Response
