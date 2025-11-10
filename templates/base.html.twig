@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-        <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
-        <!-- Bootstrap Bundle JS (inclut Popper) -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> 
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
 
-        {% block javascripts %}
-        {% endblock %}
-    </head>
-    <body>
+    <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 
-        
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> 
 
-                {% block nav %}
-                 {% include 'layout/nav.html.twig'%}
-                 <div id="cart-toast" class="toast-message">Produit ajouté au panier ✅</div>
+    {% block javascripts %}{% endblock %}
+</head>
 
-                 {% endblock %}
+<body class="d-flex flex-column min-vh-100">
 
-                <script>
-                   
+    {% block nav %}
+        {% include 'layout/nav.html.twig' %}
+        <div id="cart-toast" class="toast-message">Produit ajouté au panier ✅</div>
+    {% endblock %}
 
-                </script>
-
+    <main class="flex-grow-1">
         {% block body %}{% endblock %}
-    </body>
+    </main>
+
+    {% block footer %}
+        {% include 'layout/footer.html.twig' %}
+    {% endblock %}
+
+</body>
 </html>
